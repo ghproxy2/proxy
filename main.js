@@ -1,14 +1,28 @@
+// const express = require('express');
+// const { createProxyMiddleware } = require('http-proxy-middleware');
+// const app = express();
+
+// app.use('/', (req, res, next) => {
+//   const target = req.query.proxy;
+//   if (target) {
+//     createProxyMiddleware({ target, changeOrigin: true })(req, res, next);
+//   } else {
+//     next();
+//   }
+// });
+
+// app.listen(3001);
+
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
-
-app.use('/', (req, res, next) => {
-  const target = req.query.proxy;
+app.use('/', createProxyMiddleware((req) => {
+  const target = req.url.slice(1);
   if (target) {
-    createProxyMiddleware({ target, changeOrigin: true })(req, res, next);
+    return { target, changeOrigin: true };
   } else {
     next();
   }
-});
+}));
 
 app.listen(3001);
