@@ -1,9 +1,10 @@
-const http = require('http');
-const httpProxy = require('http-proxy');
-const proxy = httpProxy.createProxyServer({});
-const server = http.createServer((req, res) => {
-  const target = req.url.slice(1);
-  proxy.web(req, res, { target });
-});
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const app = express();
 
-server.listen(3001);
+app.use('/', createProxyMiddleware((req) => {
+  const target = req.url.slice(1);
+  return { target, changeOrigin: true };
+}));
+
+app.listen(3001);
