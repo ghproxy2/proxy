@@ -6,4 +6,4 @@ const server = http.createServer((req, res) => {
   proxy.web(req, res, { target });
 });
 
-server.listen(8000);
+server.listen(3001);
